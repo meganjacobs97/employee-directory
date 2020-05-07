@@ -12,19 +12,24 @@ class EmployeeSearchAndTable extends Component {
         search: "",
     };
 
+    //on page load call populateEmployees()
     componentDidMount() {
         this.populateEmployees(); 
     };
 
+    //fired when search is entered 
     handleInputChange = event => {
         const name = event.target.name;
         const value = event.target.value;
+        //update search 
         this.setState({
           [name]: value
         });
+        //filter results array to reflect search 
         this.filterBySearch(value); 
     }
 
+    //fired on form submit 
     handleFormSubmit = event => {
         event.preventDefault(); 
         
@@ -32,28 +37,33 @@ class EmployeeSearchAndTable extends Component {
         this.setState({results: this.state.allResults, search: ""})
     }
 
+    //fired when sort by name arrow is clocked 
     handleSortByName = event => {
         event.preventDefault(); 
         this.sortByName(); 
     }
 
+    //calls on API to get random employees 
     populateEmployees = () => {
         API.getRandomEmployees()
             .then(res => {
+                //update results and all results 
                 this.setState({ results: res.data.results, allResults: res.data.results })
             })
             .catch(err => console.log(err));
     };
 
+    //filters results based on input in search bar 
     filterBySearch = (search) => {
         const filteredRes = this.state.allResults.filter(function(result) {
             const nameStr = result.name.first + " " + result.name.last; 
             return nameStr.toLowerCase().includes(search.toLowerCase()); 
         })
-
+        //update state 
         this.setState({results: filteredRes}); 
     }
 
+    //function that sorts results by name alphabetically 
     sortByName = () => {
         let sortedResults = [...this.state.results]; 
         sortedResults.sort(function(a, b){
@@ -73,14 +83,17 @@ class EmployeeSearchAndTable extends Component {
             }
             return 0;
         })
+        //update the state 
         this.setState({results: sortedResults}); 
     }
 
+    //render elements on the page 
     render() {
         return (
             <Container>
                 <Row>
                     <Col size="md-12">
+                        {/* search bar */}
                         <form className="form-inline" onSubmit={this.handleFormSubmit}>   
                             <div className="form-group">
                                 <input
@@ -93,6 +106,7 @@ class EmployeeSearchAndTable extends Component {
                                 id="search"
                                 />
                             </div>
+                            {/* clear button */}
                             <div className="form-group">
                                 <button className="btn" id="clear-button" type="submit">Clear</button>  
                             </div>
@@ -102,6 +116,7 @@ class EmployeeSearchAndTable extends Component {
                 <br/>
                 <Row>
                     <Col size="md-12">
+                        {/* table of employees */}
                         <table className="table table-striped">
                             <thead>
                                 <tr>
@@ -113,6 +128,8 @@ class EmployeeSearchAndTable extends Component {
                                 </tr>
                             </thead>
                             <tbody>
+                                {/* each result (employee) becomes an entry in the table */}
+                                {/* as the results array is updated, so is the table */}
                                 {this.state.results.map((result,index) => (<tr key={index}>
                                         <td>
                                             <img alt={result.name.first} src={result.picture.thumbnail} />

@@ -1,5 +1,6 @@
 import React from "react";
 
+//bootstrap column 
 function Col(props) {
   const size = props.size
     .split(" ")
