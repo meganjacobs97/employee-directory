@@ -1,4 +1,3 @@
-//QUESTION - BACKSPACE DOESNT TRIGGER HANDLE INPUT CHANGE
 import React, { Component } from "react";
 import API from "../../utils/API";
 import Row from "../Row";
@@ -41,14 +40,13 @@ class EmployeeSearchAndTable extends Component {
     populateEmployees = () => {
         API.getRandomEmployees()
             .then(res => {
-                console.log(res.data.results); 
                 this.setState({ results: res.data.results, allResults: res.data.results })
             })
             .catch(err => console.log(err));
     };
 
     filterBySearch = (search) => {
-        const filteredRes = this.state.results.filter(function(result) {
+        const filteredRes = this.state.allResults.filter(function(result) {
             const nameStr = result.name.first + " " + result.name.last; 
             return nameStr.toLowerCase().includes(search.toLowerCase()); 
         })
