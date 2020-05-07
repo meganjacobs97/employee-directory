@@ -12,7 +12,7 @@ To run the application on your local machine, you must install the dependencies 
 
 ## Usage 
 
-To use this application, follow the link on the repository page; otherwise, you can [click here]().
+To use this application, follow the link on the repository page; otherwise, you can [click here](https://reactappemployeedirectory.herokuapp.com/).
 
 On page load, 200 random employees will be retrieved from the API and displayed on the page. 
 
